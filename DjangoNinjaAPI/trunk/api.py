@@ -1,7 +1,7 @@
 # API 实例注册文件
 # 将各个具体业务模块的路由（通常通过 Router 定义）挂载进去。
 from ninja import NinjaAPI
-from ninja_jwt.authentication import JWTAuthentication
+
 from trunk.views import router  # 从 views.py 中导入定义好的 Router
 
 # 创建 API 实例并启用 JWT 认证
