@@ -137,8 +137,10 @@ def list_study_user_data(request):
 def get_user_me(request):
     """
     GET /api/users/me
-    获取用户自己信息，需认证
+    获取当前用户信息，需认证
     """
-    return request.auth.user
+    user = request.user  # 获取当前用户信息
+    return {"message": "获取用户信息成功", "user": user}  # 返回成功信息和用户数据
+
 
 # ==========================
