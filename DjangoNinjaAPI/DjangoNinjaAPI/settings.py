@@ -37,11 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ninja_jwt',#注册ninja_jwt
     'trunk',#注册应用
     'ninja' # Django Ninja 提供 API 框架
 ]
 
-
+JWT_AUTH = {
+    'SIGNING_KEY': 'your-secret-key',  # 用于签名的密钥
+    'VERIFYING_KEY': 'your-public-key',  # 用于验证的公钥（如果使用非对称加密）
+    'ALGORITHM': 'HS256',  # 签名算法，默认为 HS256
+    'ACCESS_TOKEN_EXPIRE_MINUTES': 15,  # 访问令牌过期时间（分钟）
+    'REFRESH_TOKEN_EXPIRE_DAYS': 7,  # 刷新令牌过期时间（天）
+}
 
 
 MIDDLEWARE = [

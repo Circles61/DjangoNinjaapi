@@ -4,6 +4,7 @@ from django.utils.crypto import get_random_string
 from ninja.errors import HttpError
 from trunk.models import User
 from trunk.serializers import UserSchema, RegisterSchema, LoginSchema
+from ninja_jwt.tokens import RefreshToken
 
 router = Router()#实例化一个Router对象，统一管理API接口
 #后面只需使用装饰器@router.get、@router.post、@router.put、@router.delete等来定义API接口即可
@@ -11,6 +12,19 @@ router = Router()#实例化一个Router对象，统一管理API接口
 # ==========================
 # 用户信息 CRUD 接口
 # ==========================
+#获取用户自己信息接口
+'''
+@router.get("/users/{user_id}", response=UserSchema, auth=JWTAuthentication())
+def get_user(request, user_id: int):
+    """
+    GET /api/users/{user_id}
+    获取用户信息，需认证
+    """
+    user = get_object_or_404(User, id=user_id)
+    return user
+'''
+
+
 
 @router.get("/users/", response=list[UserSchema])#对返回的数据进行序列化
 def list_users(request):
@@ -70,7 +84,7 @@ def delete_user(request, user_id: int):
 # ==========================
 # 认证相关接口
 # ==========================
-
+#注册接口，不需要认证
 @router.post("/auth/register", response={201: dict})
 def register(request, data: RegisterSchema):
     """
@@ -118,3 +132,13 @@ def list_study_user_data(request):
     study_users = User.objects.filter(name__icontains="study")
     return study_users
 '''
+#新增一个获取用户自己信息接口使用token
+@router.get("/users/me", response=UserSchema, auth=JWTAuthentication())
+def get_user_me(request):
+    """
+    GET /api/users/me
+    获取用户自己信息，需认证
+    """
+    return request.auth.user
+
+# ==========================
