@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.crypto import get_random_string
 from ninja.errors import HttpError
 from trunk.models import User
+from trunk.auth import jwt_auth
 from trunk.serializers import UserSchema, RegisterSchema, LoginSchema
 from ninja_jwt.tokens import RefreshToken
 
@@ -132,15 +133,9 @@ def list_study_user_data(request):
     study_users = User.objects.filter(name__icontains="study")
     return study_users
 '''
-#新增一个获取用户自己信息接口使用token
-@router.get("/users/me", response=UserSchema, auth=JWTAuthentication())
+# **获取当前用户信息（需 Token 认证）**
+@router.get("/users/me", response=UserSchema, auth=jwt_auth)
 def get_user_me(request):
-    """
-    GET /api/users/me
-    获取当前用户信息，需认证
-    """
-    user = request.user  # 获取当前用户信息
-    return {"message": "获取用户信息成功", "user": user}  # 返回成功信息和用户数据
-
+    return {"message": "获取用户信息成功", "user": request.auth}
 
 # ==========================

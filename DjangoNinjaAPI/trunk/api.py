@@ -5,7 +5,7 @@ from ninja_jwt.authentication import JWTAuthentication
 from trunk.views import router  # 从 views.py 中导入定义好的 Router
 
 # 创建 API 实例并启用 JWT 认证
-api = NinjaAPI(title="Django Ninja API", version="1.0", authentication=JWTAuthentication())
+api = NinjaAPI(title="Django Ninja API", version="1.0")
 # 将 router 中所有路由接口挂载到当前根路径
 api.add_router("", router)
 
